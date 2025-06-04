@@ -86,14 +86,15 @@ public class Main {
                             if(selectingUser){
                                 System.out.println("Enter your username or just click enter to exit");
                             }
-                        
-                           String loginChoice = input.nextLine();
-                           if(loginChoice.equals("")){
-                                System.out.println("Exiting the login \n");
-                                loginLoop = true;
-                           }
+
+                           
                            
                            if(selectingUser){
+                                String loginChoice = input.nextLine();
+                                if(loginChoice.equals("")){
+                                        System.out.println("Exiting the login \n");
+                                        loginLoop = true;
+                                }
                                 for(User i : currentUsers){
                                     if(i.userName.equals(loginChoice)){
                                       wantUser = i;
@@ -143,6 +144,31 @@ public class Main {
                 "7) Remove a contact " + "\n" + "8) Exit Program " + "\n");
 
                 String choice = input.nextLine();
+
+                switch(choice){
+                    case "1":
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        System.out.println("Logging out");
+                        logged = false;
+                        break;
+                    case "4":
+                        break;
+                    case "5":
+                        break;
+                    case "6":
+                        break;
+                    case "7":
+                        break;
+                    case "8":
+                        System.out.println("Exiting program");
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Please provide a valid input from the list above");
+                }
 
 
             }
