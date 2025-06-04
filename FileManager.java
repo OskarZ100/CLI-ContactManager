@@ -50,7 +50,7 @@ public class FileManager {
     public void addUser(User user){
         try (FileWriter fileWriter = new FileWriter(fileName, true)) {
                fileWriter.write("\n" + user.toString());
-               System.out.println("Text appended to the file successfully.");
+               System.out.println("\n Added User \n");
            } catch (IOException e) {
                System.err.println("Error appending to the file: " + e.getMessage());
            }
