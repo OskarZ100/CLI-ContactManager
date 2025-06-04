@@ -6,7 +6,7 @@ public class Main {
         ArrayList currentUsers = new  ArrayList<User>();
 
         FileManager test = new FileManager("Users.txt");
-        User tester = new User("234234323", "dong dodng", "dong@mai", "cocl", "cockckck");
+        User tester = new User("234234323", "dong dodng", "dong@mai", "cocl", "cool");
         
         
     }
