@@ -40,10 +40,13 @@ public class Main {
                         String choice_name = input.nextLine();
                         String choice_phoneNum = "000-000-0000";
                         while(!validPhoneNumber){
-                            System.out.println("What is the phone number of your user?");
+                            System.out.println("What is the phone number of your user?(###-###-####)");
                             choice_phoneNum = input.nextLine();
                             //make a valid phone number program 
                             validPhoneNumber = validNumber(choice_phoneNum);
+                            if(!validPhoneNumber){
+                                System.out.println("Please enter your phone number in the following format (123-456-7890)");
+                            }
                         }
                         System.out.println("What is the email of your user?");
                         String choice_email = input.nextLine();
@@ -163,6 +166,25 @@ public class Main {
     }
 
     public static boolean validNumber(String num){
+        String[] temp = num.split("-");
+        if(temp.length != 3){
+            return false;
+        }
+        int count = 0;
+        for(String i : temp){
+            try{
+                int x = Integer.parseInt(i);
+                if(x > 999 && count != 2){
+                    return false;
+                }
+                if(count == 2 && !(x >= 1000 && x <= 9999)){
+                    return false;
+                }
+            }catch(Exception e){
+                return false;
+            }
+            count += 1;
+        }
         return true;
     }
 
