@@ -9,7 +9,6 @@ public class Main {
         User myUser = null;
 
         currentUsers = addAllCurrentUsers(usersTextFile);
-
         boolean running = true;
         boolean logged = false;
         System.out.println("Welcome to my Contact Manager");
@@ -43,7 +42,8 @@ public class Main {
                         while(!validPhoneNumber){
                             System.out.println("What is the phone number of your user?");
                             choice_phoneNum = input.nextLine();
-                            validPhoneNumber = true;
+                            //make a valid phone number program 
+                            validPhoneNumber = validNumber(choice_phoneNum);
                         }
                         System.out.println("What is the email of your user?");
                         String choice_email = input.nextLine();
@@ -54,16 +54,67 @@ public class Main {
                         if(choice_email.equals("") || choice_name.equals("") || choice_password.equals("") || choice_userName.equals("")){
                             System.out.println("Did not provide valid input for one of the feilds not adding your user to the list");
                         }else{
-                            User tempNewUserVariable = new User(choice_phoneNum, choice_name, choice_email, choice_userName, choice_password);
-                            usersTextFile.addUser(tempNewUserVariable);
-                            currentUsers.add(tempNewUserVariable);
+                            String testCase = choice_email + choice_name + choice_password + choice_phoneNum + choice_userName;
+                            if(testCase.indexOf("/") == -1){
+                                User tempNewUserVariable = new User(choice_phoneNum, choice_name, choice_email, choice_userName, choice_password);
+                                if(checkDupes(currentUsers, tempNewUserVariable)){
+                                    usersTextFile.addUser(tempNewUserVariable);
+                                    currentUsers.add(tempNewUserVariable);
+                                }else{
+                                    System.out.println("Do not enter someone with the same username or phonenumber as another user");
+                                }
+                                
+                            }else{
+                                System.out.println("Not allowed to use / character \n");
+                            }
+                            
                         }
                         
                         break;
                     case "3":
                         //get the current user if not null and then go through the current users
                         //check each one for the name he is trying to get 
-                        //then put them in a loop until they get the password 
+                        //then put them in a loop until they get the password
+                        boolean loginLoop = false;
+                        User wantUser = null;
+                        boolean selectingUser = true;
+                        boolean passwordSelect = true;
+                        while(!loginLoop){
+                            if(selectingUser){
+                                System.out.println("Enter your username or just click enter to exit");
+                            }
+                        
+                           String loginChoice = input.nextLine();
+                           if(loginChoice.equals("")){
+                                System.out.println("Exiting the login \n");
+                                loginLoop = true;
+                           }
+                           
+                           if(selectingUser){
+                                for(User i : currentUsers){
+                                    if(i.userName.equals(loginChoice)){
+                                      wantUser = i;
+                                      selectingUser = false;
+                                    }
+                                }
+                           }
+                            if(!selectingUser){
+                                System.out.println("Please enter your password");
+                                String passSelection = input.nextLine();
+                                if(passSelection.equals(wantUser.password)){
+                                    myUser = wantUser;
+                                    loginLoop = true;
+                                    logged = true;
+                                }else{
+                                    System.out.println("Wrong password");
+                                }
+                            }       
+    
+                           
+
+                        }
+                        
+                         
                         
                         break;
                     case "4":
@@ -98,6 +149,29 @@ public class Main {
     }
 
     public static ArrayList<User> addAllCurrentUsers(FileManager file){
-        return null;
+        ArrayList<User> returnList = new ArrayList<>();
+        ArrayList<String> usersTextVersion = file.outputUsers();
+        for(String i : usersTextVersion){
+            if(i.equals("")){
+                continue;
+            }
+            String[] splitUser = i.split("/");
+            User newUser = new User(splitUser[1], splitUser[0], splitUser[2], splitUser[3], splitUser[4]);
+            returnList.add(newUser);
+        }
+        return returnList;
+    }
+
+    public static boolean validNumber(String num){
+        return true;
+    }
+
+    public static boolean checkDupes(ArrayList<User> users, User check){
+        for(User i : users){
+            if(i.userName.equals(check.userName) || i.phoneNumber.equals(check.phoneNumber)){
+                return false;
+            }
+        }                               
+        return true;                   
     }
 }
