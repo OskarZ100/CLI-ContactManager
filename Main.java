@@ -63,6 +63,7 @@ public class Main {
                                 if(checkDupes(currentUsers, tempNewUserVariable)){
                                     usersTextFile.addUser(tempNewUserVariable);
                                     currentUsers.add(tempNewUserVariable);
+                                    tempNewUserVariable.file.createFile();
                                 }else{
                                     System.out.println("Do not enter someone with the same username or phonenumber as another user");
                                 }
@@ -147,8 +148,47 @@ public class Main {
 
                 switch(choice){
                     case "1":
+                        ArrayList<String> contactsArray = myUser.file.outputUsers();
+                        int itteration = 1;
+                        for(String cntct_s : contactsArray){
+                            String[] contac_info = cntct_s.split("/");
+                            if(!(contac_info.length < 3)){
+                                String contact_name = contac_info[0];
+                                String contact_phone = contac_info[1];
+                                String contact_email = contac_info[2];
+
+                                System.out.println(itteration + ") " + contact_name + "\n\t Phone: " + contact_phone + " \n\t Email: " + contact_email);
+                                System.out.println("------------------------------ \n");
+                                itteration += 1;
+                            }
+                        }
                         break;
                     case "2":
+                        boolean phoneSelection = false;
+                        System.out.println("What is the new contacts name?");
+                        String contact_name = input.nextLine();
+                        System.out.println("What is the new contacts Phone number(###-###-####) <-- format ?");
+                        String contact_phone = "";
+                        while(!phoneSelection){
+                            contact_phone = input.nextLine();
+                            if(validNumber(contact_phone)){
+                                phoneSelection = true;
+                            }else{
+                                System.out.println("Please use the correct format for your contacts number");
+                            }
+                        }
+                        
+                        System.out.println("What is the new contacts email?");
+                        String contact_email = input.nextLine();
+                        if(contact_email.equals("") || contact_name.equals("") || contact_phone.equals("")){
+                            System.out.println("Invalid input provided");
+                        }
+                        String testCase = contact_email + contact_name + contact_phone;
+                        if(testCase.indexOf("/") == -1){
+                            myUser.file.addContact(contact_name + "/" + contact_phone + "/" + contact_email);
+                        }else{
+                            System.out.println("Please do not use the / character");
+                        }
                         break;
                     case "3":
                         System.out.println("Logging out");
@@ -161,6 +201,9 @@ public class Main {
                     case "6":
                         break;
                     case "7":
+                        System.out.println("what contact would you like to remove?");
+                        String remove = input.nextLine();
+                        myUser.file.removeContact(remove);
                         break;
                     case "8":
                         System.out.println("Exiting program");
@@ -186,6 +229,7 @@ public class Main {
             }
             String[] splitUser = i.split("/");
             User newUser = new User(splitUser[1], splitUser[0], splitUser[2], splitUser[3], splitUser[4]);
+            newUser.file.createFile();
             returnList.add(newUser);
         }
         return returnList;

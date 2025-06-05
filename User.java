@@ -13,6 +13,7 @@ public class User {
         this.email = email;
         this.userName = userName;
         this.password = password;
+        this.file = new FileManager(userName + ".txt");
     }
 
     public void setPassword(String newPassword){
