@@ -109,4 +109,16 @@ public class FileManager {
                System.err.println("Error appending to the file: " + e.getMessage());
            }
     }
+
+    public void resetUsers(ArrayList<User> users){
+        File file = new File("Users.txt");
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.print(""); // Writes an empty string to the file
+        } catch (IOException e) {
+            System.err.println("Error clearing file: " + e.getMessage());
+        }
+        for(User i : users){
+            addUser(i);
+        }
+    }
 }

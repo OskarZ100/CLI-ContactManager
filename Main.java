@@ -52,6 +52,9 @@ public class Main {
                         String choice_email = input.nextLine();
                         System.out.println("What is the user name of your user?");
                         String choice_userName = input.nextLine();
+                        if(choice_userName.equals("Users")){
+                            choice_userName = "users";
+                        }
                         System.out.println("What is the password of your user?");
                         String choice_password = input.nextLine();
                         if(choice_email.equals("") || choice_name.equals("") || choice_password.equals("") || choice_userName.equals("")){
@@ -195,10 +198,42 @@ public class Main {
                         logged = false;
                         break;
                     case "4":
-                        break;
                     case "5":
-                        break;
                     case "6":
+                        ArrayList<User> tempUsers = new ArrayList<>();
+                        System.out.println("What would you like the new one to be?");
+                        String newVar = input.nextLine();
+                        if(newVar.equals("") || newVar.indexOf("/") != -1){
+                            System.out.println("Please enter a valid value");
+                            break;
+                        }
+                        if(choice.equals("4")){
+                            myUser.password = newVar;
+                        }
+                        if(choice.equals("5")){
+                            myUser.email = newVar;
+                        }
+                        if(choice.equals("6")){
+                            boolean loops = false;
+                            while(!loops){
+                                if(validNumber(newVar)){
+                                    myUser.phoneNumber = newVar;
+                                    loops = true;
+                                }else{
+                                    System.out.println("Please use the format (###-###-####)");
+                                    newVar = input.nextLine();
+                                }
+                            }
+                        }
+                        for(User usersPast : currentUsers){
+                            if(usersPast.userName.equals(myUser.userName)){
+                                tempUsers.add(myUser);
+                            }else{
+                                tempUsers.add(usersPast);
+                            }
+                        }
+                        currentUsers = tempUsers;
+                        usersTextFile.resetUsers(currentUsers);
                         break;
                     case "7":
                         System.out.println("what contact would you like to remove?");
